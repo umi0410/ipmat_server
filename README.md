@@ -9,13 +9,17 @@
 
 ## 업데이트 내용
 
+* ### 0828
+
+  난잡하게 LinearLayout과 ImageView를 겹쳐서 진행하던 FoodExam을 CardView를 이용해서 깔끔하게 정리함.
+
+  Instagram 먹킷리스트 유저들과 연결해서 Food Images 가져옴
+
 * ### 0826
 
   nav와 action bar, toolbar 등의 설정을 Activity 마다 복붙형식으로 했었는데, 이를 DrawerSetter 클래스를 정의하여 깔끔하게 구현해놓음 
 
   Exam Delete 기능을 추가함
-
-* 
 
 
 
