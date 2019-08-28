@@ -16,7 +16,7 @@ def readAll(request):
     return HttpResponse(foods_json, content_type='application/json')
 
 def readFromFoodBook(request, foodBookId):
-    foods=FoodBook.objects.get(id=foodBookId).food.all()
+    foods=FoodBook.objects.get(id=foodBookId).food.all().order_by("?")
     foods_json = serializers.serialize('json', foods)
     return HttpResponse(foods_json, content_type='application/json')
     

@@ -30,7 +30,7 @@ def getParicipantsFromExam(examId):
 def readQuestion(request):
     # TestRows.objects.first().row1.left_food
     # 첫번쨰 테스트 로우만 가져옴
-    questions=TestRowOne.objects.all()
+    questions=TestRowOne.objects.all().order_by("?")
     data=[]
     index=0
     for question in questions:
@@ -253,7 +253,7 @@ def readScoreOfParticiapnts(request, examId):
         "participants":[]
     }
     if( len(getParicipantsFromExam(exam.id)) == 0):
-        return HttpResponseBadRequest("No Answer")
+        return HttpResponse(json.dumps(data))
     #questionRow에는 row_set()이 있고 그 안에는 푸드들이 있고 answer, participant_answer이 있다.
     else:
         # question id들의 순서에 따라 정답, 추측들을 담아
