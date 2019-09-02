@@ -12,7 +12,7 @@ class TestRowOne(models.Model):
     right_food=models.ForeignKey(Food, on_delete=models.CASCADE, related_name="right")
     
     def __str__(self):
-        return self.left_food.food_name+" vs "+self.right_food.food_name
+        return "["+str(self.id)+"] "+self.left_food.food_name+" vs "+self.right_food.food_name
 
 class FoodTest(models.Model):
     title=models.CharField(max_length=30)
@@ -27,6 +27,10 @@ class TestRows(models.Model):
     member=models.ForeignKey(Member, on_delete=models.CASCADE)
     row=models.ForeignKey(TestRowOne, on_delete=models.CASCADE)
     answer=models.ForeignKey(Food, on_delete = models.CASCADE)
+
+    def __str__(self):
+        return "["+str(self.id)+"] TestRow "+self.row.left_food.food_name+" vs "+self.row.right_food.food_name
+
 class ParticipantAnswer(models.Model):
     member=models.ForeignKey(Member, on_delete=models.CASCADE)
     question=models.ForeignKey(TestRows, on_delete=models.CASCADE)
@@ -34,10 +38,5 @@ class ParticipantAnswer(models.Model):
     test=models.ForeignKey(FoodTest,  on_delete=models.CASCADE)
 
     def __str__(self):
-        return "ParticipantAnswer<"+str(self.id)+"> "+self.member.pk+" "+str(self.question.id)+"th answer in "+self.question.test.title[:5]
-    
-class Score(models.Model):
-    test=models.ForeignKey(FoodTest,  on_delete=models.CASCADE)
-    participant=models.ForeignKey(Member, on_delete=models.CASCADE)
-    score=models.IntegerField()
+        return "ParticipantAnswer["+str(self.id)+"] "+self.member.pk+" answer in "+self.question.test.title[:5]
 

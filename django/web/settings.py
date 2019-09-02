@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "192.168.219.108", "15.164.23.41", "192
 INSTALLED_APPS = [
     # "about", "default", "food", "help", "member", "register", "tag",
     "member", "food","food_test",
+    "rangefilter",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

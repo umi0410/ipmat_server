@@ -4,8 +4,12 @@ from django.utils import timezone
 def imgUpload(instance, _name):
     return "imgs/"+_name
 # Create your models here.
+
+class FoodSubCategory(models.Model):
+    categoryName=models.CharField(max_length=15, unique=True)
 class Food(models.Model):
     food_name=models.CharField(max_length=15, unique=True)
+    category=models.ManyToManyField(FoodSubCategory, default=1, blank=False)
     img=models.ImageField(upload_to=imgUpload, default="imgs/default_food.png")
     price=models.IntegerField(default=1)
     desc=models.TextField(blank=True, max_length=300)
@@ -17,17 +21,6 @@ class Food(models.Model):
     def __str__(self):
         return "Food["+str(self.id)+"] "+self.food_name
 
-# def setAuthorDroppedOut():
-#     return Member.objects.get(_id="dropped_out")
-# class FoodComment(models.Model):
-#     # comment author id
-#     author=models.ForeignKey(Member, on_delete=models.SET(setAuthorDroppedOut))
-#     food=models.ForeignKey(Food, on_delete=models.CASCADE)
-#     content=models.TextField(max_length=1000)
-#     time=models.DateTimeField(default=timezone.now)
-
-#     def __str__(self):
-#         return "Food Comment - "+self.content[:10]
     
 class FoodBook(models.Model):
     food_book_name=models.CharField(max_length=30, unique=True)

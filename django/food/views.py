@@ -18,6 +18,7 @@ def readAll(request):
 def readFromFoodBook(request, foodBookId):
     foods=FoodBook.objects.get(id=foodBookId).food.all().order_by("?")
     foods_json = serializers.serialize('json', foods)
+    print(foods_json)
     return HttpResponse(foods_json, content_type='application/json')
     
 def readTemp(request):
