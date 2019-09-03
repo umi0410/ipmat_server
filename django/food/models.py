@@ -1,8 +1,12 @@
 from django.db import models
 # from member.models import Member
 from django.utils import timezone
+from PIL import Image
+from django.conf import settings
+
+IMAGE_PATH="imgs/"
 def imgUpload(instance, _name):
-    return "imgs/"+_name
+    return IMAGE_PATH+_name
 # Create your models here.
 
 class FoodSubCategory(models.Model):
@@ -20,6 +24,30 @@ class Food(models.Model):
 
     def __str__(self):
         return "Food["+str(self.id)+"] "+self.food_name
+    def save(self):
+        super().save()
+        defaultLocation="/".join(str(self.img).split("/")[:-1])
+        nameAndExt=str(self.img).split("/")[-1]
+        print(nameAndExt.split("."))
+        onlyName, extension=nameAndExt.split(".")
+        imgLocation=settings.MEDIA_ROOT+"/"+str(self.img)
+        print(imgLocation)
+        img = Image.open(imgLocation)
+        width, height = img.size
+        print(width, height)
+        if width>1200 or height>1000:
+            img.thumbnail((600,500), Image.ANTIALIAS)
+            if extension=="jpg" or extension=="JPG":
+                extension="jpeg"
+            img.save(settings.MEDIA_ROOT+"/"+IMAGE_PATH+onlyName+"_small."+extension)
+            self.img=IMAGE_PATH+"/"+onlyName+"_small."+extension
+            print("!", width, height)
+            super().save()
+
+
+
+        
+        
 
     
 class FoodBook(models.Model):
