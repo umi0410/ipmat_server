@@ -40,7 +40,7 @@ class Food(models.Model):
             if extension=="jpg" or extension=="JPG":
                 extension="jpeg"
             img.save(settings.MEDIA_ROOT+"/"+IMAGE_PATH+onlyName+"_small."+extension)
-            self.img=IMAGE_PATH+"/"+onlyName+"_small."+extension
+            self.img=IMAGE_PATH+onlyName+"_small."+extension
             print("!", width, height)
             super().save()
 
