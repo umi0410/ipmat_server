@@ -129,9 +129,28 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
+# if not DEBUG:
+#     STATIC_URL = '/static/'
+
+    # CRISPY_TEMPLATE_PACK = 'bootstrap4'
+    # MEDIA_URL = '/uploads/' # 업로드 할 경로
+    # MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+
+# AWS Setting
+AWS_REGION = 'ap-northeast-2'
+AWS_STORAGE_BUCKET_NAME = 'ipmat-uploads'
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_HOST = 's3.%s.amazonaws.com' % AWS_REGION
+AWS_ACCESS_KEY_ID = 'AKIAUXSJZD6RAMT6CYUJ'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_DEFAULT_ACL = "public-read"
 
 STATIC_URL = '/static/'
+# Static Setting
+# STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+# STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-MEDIA_URL = '/uploads/' # 업로드 할 경로
-MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+#Media Setting
+MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
