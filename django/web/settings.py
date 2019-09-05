@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "192.168.219.108", "15.164.23.41", "192
 INSTALLED_APPS = [
     # "about", "default", "food", "help", "member", "register", "tag",
     "member", "food","food_test",
-    "rangefilter",
+    "rangefilter", "storages",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -133,8 +133,8 @@ USE_TZ = True
 #     STATIC_URL = '/static/'
 
     # CRISPY_TEMPLATE_PACK = 'bootstrap4'
-    # MEDIA_URL = '/uploads/' # 업로드 할 경로
-    # MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+MEDIA_URL = '/uploads/' # 업로드 할 경로
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 # AWS Setting
 AWS_REGION = 'ap-northeast-2'
@@ -152,5 +152,5 @@ STATIC_URL = '/static/'
 # STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 #Media Setting
-MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+# MEDIA_URL = "/uploads/"
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
