@@ -21,6 +21,11 @@ from django.http import HttpResponse
 
 def defaultIndex(request):
     return HttpResponse("<h1>Ipmat. 오늘의 입맛은?</h1>")
+def getSetting(request):
+    data={}
+    data["MEDIA_URL"]=settings.MEDIA_URL
+    data["BUCKET_URL"]=settings.AWS_S3_CUSTOM_DOMAIN
+    
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('about/', include("about.urls")), 

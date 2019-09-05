@@ -35,7 +35,7 @@ class Food(models.Model):
         return "Food["+str(self.id)+"] "+self.food_name
     def save(self):
         super().save()
-        s3 = boto3.resource('s3', region_name='us-east-2')
+        s3 = boto3.resource('s3')
         bucket = s3.Bucket(settings.AWS_STORAGE_BUCKET_NAME)
         fileLocation=str(self.img)
         fileFullName=fileLocation.split("/")[-1]
@@ -59,6 +59,8 @@ class Food(models.Model):
             resizeLocation=IMAGE_PATH+fileName+"_small."+extension
             # default_storage를 이용해서 location, content로 저장
             default_storage.save(resizeLocation,img_content)
+            # 지금은 오류가 많으니 로컬에도 리사이즈한 거만 임시 저장
+            img.save(settings.MEDIA_ROOT+"/"+resizeLocation)
             # s3 file을 닫고 저장
             file.close()
             self.img=IMAGE_PATH+fileName+"_small."+extension
