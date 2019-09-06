@@ -49,6 +49,7 @@
 * AlertBox에 Layout xml 적용하는 방법
 * SetPreferences 나 session key 관리 부분을 좀 더 확실히 하기.
 * ~~s3 와 django storage 연동하기~~
+* s3 Bucket을 Nginx reverse proxy로 설정해서 한 호스트를 통해 이용가능하게 할까?
 
 
 

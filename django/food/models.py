@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 from PIL import Image
 from django.conf import settings
-
+import uuid
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from io import StringIO, BytesIO
@@ -56,16 +56,21 @@ class Food(models.Model):
             img.save(buff, format=extension, quality=100)
             img_content = ContentFile(buff.getvalue())
             # Django의 ContentFile로 맵핑해
-            resizeLocation=IMAGE_PATH+fileName+"_small."+extension
+            # uuid 생성
+            randomText=uuid.uuid4().hex[:5]
+            resizeLocation=IMAGE_PATH+fileName+"_"+randomText+"."+extension
+            print(resizeLocation)
             # default_storage를 이용해서 location, content로 저장
             default_storage.save(resizeLocation,img_content)
             # 지금은 오류가 많으니 로컬에도 리사이즈한 거만 임시 저장
             img.save(settings.MEDIA_ROOT+"/"+resizeLocation)
             # s3 file을 닫고 저장
             file.close()
-            self.img=IMAGE_PATH+fileName+"_small."+extension
+            self.img=resizeLocation
             print("!", img.size)
             super().save()
+        else:
+            img.save(settings.MEDIA_ROOT+"/"+str(self.img))
 
     
 class FoodBook(models.Model):
