@@ -62,8 +62,11 @@ class Food(models.Model):
             print(resizeLocation)
             # default_storage를 이용해서 location, content로 저장
             default_storage.save(resizeLocation,img_content)
+            
+            # 오류 없어져서 지워봄
             # 지금은 오류가 많으니 로컬에도 리사이즈한 거만 임시 저장
-            img.save(settings.MEDIA_ROOT+"/"+resizeLocation)
+            # img.save(settings.MEDIA_ROOT+"/"+resizeLocation)
+            
             # s3 file을 닫고 저장
             file.close()
             self.img=resizeLocation

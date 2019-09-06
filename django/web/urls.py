@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from django.http import HttpResponse
+from preference import views as preference_views
 
 def defaultIndex(request):
     return HttpResponse("<h1>Ipmat. 오늘의 입맛은?</h1>")
@@ -34,6 +35,7 @@ urlpatterns = [
     path("foodTest/", include("food_test.urls")),
     # path('help/', include("help.urls")), 
     path('member/', include("member.urls")), 
+    path('preference', preference_views.S3Storage.as_view()),
     # path('register/', include("register.urls")), 
     # path('tag', include("tag.urls"))
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
