@@ -81,7 +81,8 @@ class FoodBook(models.Model):
     image=models.ImageField(default="imgs/food_book_default.jpg",
         upload_to=imgUpload, max_length=40)
     food=models.ManyToManyField(Food)
-    star=models.IntegerField(default=0);
+    star=models.IntegerField(default=0)
+    playCount=models.IntegerField(default=0)
     # foodbook=models.ManyToManyField(Tag)
     # tag=models.ManyToManyField(Tag)
     # category=models.ManyToManyField(Category)

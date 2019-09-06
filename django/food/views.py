@@ -16,9 +16,17 @@ def readAll(request):
     return HttpResponse(foods_json, content_type='application/json')
 
 def readFromFoodBook(request, foodBookId):
-    foods=FoodBook.objects.get(id=foodBookId).food.all().order_by("?")
+    # MAX_FOOD_NUMBER=10
+    # 이 부분은 나중에 구현하자..
+    foodBook=FoodBook.objects.get(id=foodBookId)
+    foods=foodBook.food.all().order_by("?")
+    foodBook.playCount+=1
+    foodBook.save()
+    print("* client chose a food book")
+    print("["+foodBook.food_book_name+"], playCount : "+str(foodBook.playCount))
+
     foods_json = serializers.serialize('json', foods)
-    print(foods_json)
+#     print(foods_json)
     return HttpResponse(foods_json, content_type='application/json')
     
 def readTemp(request):
