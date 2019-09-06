@@ -10,7 +10,7 @@ class S3Storage(View):
         # print(request.__dir__())
         print(request.GET)
         if request.GET["type"] == "s3Host":
-            s3Host=settings.AWS_S3_CUSTOM_DOMAIN
+            s3Host="https://"+settings.AWS_S3_CUSTOM_DOMAIN+"/"
             data={"s3Host":s3Host}
             return JsonResponse(data, json_dumps_params={'ensure_ascii': True})
 
