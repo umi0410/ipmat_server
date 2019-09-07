@@ -21,12 +21,6 @@
 
   Instagram 먹킷리스트 유저들과 연결해서 Food Images 가져옴
 
-  0826
-
-  nav와 action bar, toolbar 등의 설정을 Activity 마다 복붙형식으로 했었는데, 이를 DrawerSetter 클래스를 정의하여 깔끔하게 구현해놓음 
-
-  Exam Delete 기능을 추가함
-
 * #### 0830
 
   cardView를 통해 깔끔하게 정리하고 food_name 잘 보이게 수정. RoundCorner, Shadow 적용함.
@@ -39,7 +33,15 @@
 
   s3와 Django Backend를 연동함
 
-* #### 
+* #### 0907
+
+  FoodBookList 자체가 클릭 이벤트 받게 고침.
+
+  ExamList Delete, ExamDetail Login, Singup 등등의 Activity에서 불필요하게 Activity가 남겨지던 것들 정리
+
+  ParticipantCount, FoodBookPlayCount 반영함.
+
+  
 
 ## 피드백
 

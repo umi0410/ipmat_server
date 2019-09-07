@@ -47,13 +47,13 @@ class Food(models.Model):
         img=Image.open(file)
         width, height = img.size
         print(width, height)
-        if width>1200 or height>1000:
+        if width>600 or height>500:
             img.thumbnail((600,500), Image.ANTIALIAS)
             if extension=="jpg" or extension=="JPG":
                 extension="jpeg"
             # Byte Buffer에 이미지 데이터를 담아
             buff=BytesIO()
-            img.save(buff, format=extension, quality=100)
+            img.save(buff, format=extension, quality=90)
             img_content = ContentFile(buff.getvalue())
             # Django의 ContentFile로 맵핑해
             # uuid 생성
@@ -73,7 +73,8 @@ class Food(models.Model):
             print("!", img.size)
             super().save()
         else:
-            img.save(settings.MEDIA_ROOT+"/"+str(self.img))
+            # img.save(settings.MEDIA_ROOT+"/"+str(self.img))
+            pass
 
     
 class FoodBook(models.Model):
