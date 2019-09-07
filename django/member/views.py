@@ -20,10 +20,10 @@ def readAll(request):
 def create(request):
     if request.method=="POST":
         print(request.POST)
-        _id, pw, birth_year= request.POST["id"], request.POST["pw"], int(request.POST["birthYear"])
-        
+        _id, pw= request.POST["id"], request.POST["pw"]
+        birth_year=int(request.POST["birthYear"])
         try:
-            Member(_id=_id, pw=pw, birth_year=birth_year).save()
+            Member(_id=_id, pw=pw).save()
             return HttpResponse("creation successed")
         except IntegrityError:
             # 에러 메시지로 바꾸기

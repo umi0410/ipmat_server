@@ -65,7 +65,7 @@ def readMyExamList(request):
                 "exam_id":test.id,
                 "title":test.title,
                 "hashId":test.hashId,
-                "numOfParticipants":1
+                "numOfParticipants":len(getParicipantsFromExam(test.id))
             }
             data.append(_d)
         participatedExams=getExamFromParticipant(request.POST["id"])
@@ -77,7 +77,7 @@ def readMyExamList(request):
                 "exam_id":test.id,
                 "title":test.title,
                 "hashId":test.hashId,
-                "numOfParticipants":1
+                "numOfParticipants":len(getParicipantsFromExam(test.id))
             }
             data.append(_d)
         print(data)
