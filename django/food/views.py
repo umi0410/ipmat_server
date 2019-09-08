@@ -55,6 +55,8 @@ def foodBookRead(request, id):
 
 @csrf_exempt
 def foodBookReadAll(request):
-    foodbooks=FoodBook.objects.all().order_by("?")
+    # foodbooks=FoodBook.objects.all().order_by("?")
+    # 미리보기가 고쳐지면 order_by("?") 넣자
+    foodbooks=FoodBook.objects.all()
     foodbooks_json = serializers.serialize('json', foodbooks)
     return HttpResponse(foodbooks_json, content_type='application/json')
