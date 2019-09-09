@@ -24,10 +24,13 @@ class Food(models.Model):
     food_name=models.CharField(max_length=15, unique=True)
     category=models.ManyToManyField(FoodSubCategory, default=1, blank=False)
     img=models.ImageField(upload_to=imgUpload, default="imgs/default_food.png")
+    creator=models.CharField(blank=True, max_length=30)
+    sub_img=models.ImageField(upload_to=imgUpload, blank=True)
+    sub_creator=models.CharField(blank=True, max_length=30)
     price=models.IntegerField(default=1)
+
     desc=models.TextField(blank=True, max_length=300)
     oneline_desc=models.CharField( max_length=30)
-    creator=models.CharField(blank=True, max_length=30)
     # foodbook=models.ManyToManyField(Tag)
     # category=models.ManyToManyField(Category)
 
