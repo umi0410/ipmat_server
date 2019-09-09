@@ -2,8 +2,20 @@ from django.contrib import admin
 from .models import *
 
 # Register your models here.
+STR_KHU_RESTAURANT="경희대맛집"
+
 class FoodAdmin(admin.ModelAdmin):
+    def addKHURestaurant(self, request, queryset):
+        for query in queryset:
+            query.category.add(FoodSubCategory.objects.get(categoryName=STR_KHU_RESTAURANT))
+    addKHURestaurant.short_description = "add the category named "+STR_KHU_RESTAURANT
+    def removeKHURestaurant(self, request, queryset):
+        for query in queryset:
+            query.category.add(FoodSubCategory.objects.get(categoryName=STR_KHU_RESTAURANT))
+    removeKHURestaurant.short_description = "remove the category named " + STR_KHU_RESTAURANT
+
     list_display = ["__str__", "img", "oneline_desc", "creator"]
+    actions=[addKHURestaurant, removeKHURestaurant]
 
 class FoodBookAdmin(admin.ModelAdmin):
     def getLength(self, foodBook):

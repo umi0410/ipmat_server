@@ -3,7 +3,7 @@
 
 
 
-입맛에 끌리는 음식 추천 및 자신의 입맛을 바탕으로한 문제지 만들기
+## 입맛에 끌리는 음식 추천 및 자신의 입맛을 바탕으로한 문제지 만들기
 
 
 
@@ -41,11 +41,17 @@
 
   ParticipantCount, FoodBookPlayCount 반영함.
 
+* #### 0908
+
   두 개의 액티비티에 Admob을 달았음.
-  
+
   Worldcup 진행 시 인스타 아이디가 아래쪽은 바뀌지 않는 버그가 있었는데, 그거랑 자잘한 버그 수정.
 
+* #### 0909
 
+  마지막 Activity인 경우 Back press 2번하게 수정함.
+  
+  sub_image와 sub_creator 추가함.
 
 
 
@@ -59,6 +65,7 @@
 * ~~s3 와 django storage 연동하기~~
 * s3 Bucket을 Nginx reverse proxy로 설정해서 한 호스트를 통해 이용가능하게 할까?
 * Fragment View로 갈아타볼까
+* 이미지와 creator 여러명 넣을 수 있게하기.
 
 
 
