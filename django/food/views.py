@@ -16,13 +16,13 @@ def readAll(request):
     return HttpResponse(foods_json, content_type='application/json')
 
 def readFromFoodBook(request, foodBookId):
-    # MAX_FOOD_NUMBER=10
+    MAX_FOOD_NUMBER=32
     # 이 부분은 나중에 구현하자..
     foodBook=FoodBook.objects.get(id=foodBookId)
     foods=foodBook.food.all().order_by("?")
     # 32 개가 넘으면 잘라
-    if(len(foods)>32):
-            foods=foods[:32]
+    if(len(foods)>MAX_FOOD_NUMBER):
+            foods=foods[:MAX_FOOD_NUMBER]
     foodBook.playCount+=1
     foodBook.save()
     print("* client chose a food book")

@@ -4,10 +4,12 @@ from django.http import HttpResponse, HttpResponseBadRequest
 # Create your views here.
 from .models import *
 from food.models import *
+from preference.models import *
 from django.db import IntegrityError
 import json
 from django.views.decorators.csrf import csrf_exempt
 import time, hashlib
+import datetime
 
 def read(request, prID):
     return HttpResponse(Member.objects.filter(_id=prID).values())
@@ -68,6 +70,16 @@ def login(request):
         _id=None
         pw=None
         session=None
+
+        # visitor count
+        # 존재하지 않으면
+        if(len(VisitorCount.objects.filter(date=datetime.date.today().strftime("%Y%m%d")))==0):
+            vc=VisitorCount(date=datetime.date.today().strftime("%Y%m%d")).save()
+        else:
+            vc=VisitorCount.objects.get(date=datetime.date.today().strftime("%Y%m%d"))
+            vc.count+=1
+            vc.save()
+
         try:
             if "id" in request.POST.keys() and "pw" in request.POST.keys():
                 _id, pw= request.POST["id"], request.POST["pw"]
