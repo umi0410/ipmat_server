@@ -52,6 +52,8 @@
   마지막 Activity인 경우 Back press 2번하게 수정함.
   
   sub_image와 sub_creator 추가함.
+  
+  **출시**
 
 
 

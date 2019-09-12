@@ -20,17 +20,26 @@ class FoodSubCategory(models.Model):
     categoryName=models.CharField(max_length=15, unique=True)
     def __str__(self):
         return "["+str(self.id)+"] "+self.categoryName
+def getLastOrderForGoal():
+    if len(Food.objects.all()) != 0:
+        # order가 작은 애 부터. 그리고 그 마지막
+        # lastOrderGoal=Food.objects.all().order_by("order").last()
+        # lastOrder=lastOrderGoal.order
+        lastOrder=len(FoodBook.objects.all())
+    else:
+        lastOrder=0
+    return lastOrder+10
 class Food(models.Model):
+    
     food_name=models.CharField(max_length=15, unique=True)
     category=models.ManyToManyField(FoodSubCategory, default=1, blank=False)
     img=models.ImageField(upload_to=imgUpload, default="imgs/default_food.png")
     creator=models.CharField(blank=True, max_length=30)
     sub_img=models.ImageField(upload_to=imgUpload, blank=True)
     sub_creator=models.CharField(blank=True, max_length=30)
-    price=models.IntegerField(default=1)
-
-    desc=models.TextField(blank=True, max_length=300)
     oneline_desc=models.CharField( max_length=30)
+    # price=models.IntegerField(default=1)
+    desc=models.TextField(blank=True, max_length=300)
     # foodbook=models.ManyToManyField(Tag)
     # category=models.ManyToManyField(Category)
 
@@ -87,6 +96,7 @@ class FoodBook(models.Model):
     food=models.ManyToManyField(Food)
     star=models.IntegerField(default=0)
     playCount=models.IntegerField(default=0)
+    priority=models.IntegerField(default=0)
     # foodbook=models.ManyToManyField(Tag)
     # tag=models.ManyToManyField(Tag)
     # category=models.ManyToManyField(Category)
