@@ -25,15 +25,16 @@ SECRET_KEY = '^&p616zbtunax2r76refmbwxy%(%w2#(vg^%stggn6jf+$cjbp'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "192.168.219.108", "15.164.23.41", "192.168.219.138"]
+ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1",
+                 "192.168.219.108", "15.164.23.41", "192.168.219.138"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
     # "about", "default", "food", "help", "member", "register", "tag",
-    "member", "food","food_test", "preference",
-    "rangefilter", "storages", 
+    "member", "food", "food_test", "preference",
+    "rangefilter", "storages",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -75,11 +76,11 @@ WSGI_APPLICATION = 'web.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-with open (BASE_DIR+"/db.dat", "r") as f:
-    data=f.readlines()
-    db_host=data[0].strip()
-    db_username=data[1].strip()
-    db_password=data[2].strip()
+with open(BASE_DIR+"/db.dat", "r") as f:
+    data = f.readlines()
+    db_host = data[0].strip()
+    db_username = data[1].strip()
+    db_password = data[2].strip()
 
 DATABASES = {
     'default': {
@@ -89,7 +90,7 @@ DATABASES = {
         'NAME': 'ipmat',
         'USER': db_username,
         'PASSWORD': db_password
-        
+
     }
 }
 
@@ -132,17 +133,21 @@ USE_TZ = True
 # if not DEBUG:
 #     STATIC_URL = '/static/'
 
-    # CRISPY_TEMPLATE_PACK = 'bootstrap4'
-MEDIA_URL = '/uploads/' # 업로드 할 경로
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'
+MEDIA_URL = '/uploads/'  # 업로드 할 경로
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 # AWS Setting
+with open(BASE_DIR+"/s3.dat", "r") as f:
+    data = f.readlines()
+    s3_access_key_id = data[0].strip()
+    s3_secret_access_key = data[1].strip()
 AWS_REGION = 'ap-northeast-2'
 AWS_STORAGE_BUCKET_NAME = 'ipmat-uploads'
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_HOST = 's3.%s.amazonaws.com' % AWS_REGION
-AWS_ACCESS_KEY_ID = 'AKIAUXSJZD6RAMT6CYUJ'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID = s3_access_key_id
+AWS_SECRET_ACCESS_KEY = s3_secret_access_key
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_DEFAULT_ACL = "public-read"
 
@@ -151,6 +156,6 @@ STATIC_URL = '/static/'
 # STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
 # STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
-#Media Setting
+# Media Setting
 # MEDIA_URL = "/uploads/"
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
