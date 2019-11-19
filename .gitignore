@@ -1,3 +1,7 @@
 */__pycache__/*
 *__pycache__
+#.dat => .env로 환경변수 처리하는 방향으로 업데이트
 *.dat
+
+# env는 포함하지 않음. 그냥 requirements.txt를 위한 것인 편...
+env/

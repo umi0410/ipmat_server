@@ -11,6 +11,19 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
+
+#IPMAT_MODE라는 환경변수가 있으면 IPMAT_MODE를 그걸로 설정하고, 없으면 development 모드로 설정.
+print('You can set IPMAT_MODE env as "development" or "production\nDefault is development')
+IPMAT_MODE=os.getenv("IPMAT_MODE") if os.getenv("IPMAT_MODE") else "development"
+
+if IPMAT_MODE=="development":
+    load_dotenv()
+elif IPMAT_MODE=="production":
+    load_dotenv(".production.env")
+else:
+    print("IPMAT_MODE env 설정해주세요.")
+    exit(101)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,13 +33,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '^&p616zbtunax2r76refmbwxy%(%w2#(vg^%stggn6jf+$cjbp'
+SECRET_KEY = os.getenv("IPMAT_DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+if(os.getenv('IPMAT_DEBUG')=="False"):
+    DEBUG=False
 
 ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1",
-                 "192.168.219.108", "15.164.23.41", "192.168.219.138"]
+                 "192.168.219.108", "15.164.23.41", "192.168.219.138", "ipmat"]
 
 
 # Application definition
@@ -34,7 +49,8 @@ ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1",
 INSTALLED_APPS = [
     # "about", "default", "food", "help", "member", "register", "tag",
     "member", "food", "food_test", "preference",
-    "rangefilter", "storages",
+    # "rangefilter",
+    "storages",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,20 +92,16 @@ WSGI_APPLICATION = 'web.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-with open(BASE_DIR+"/db.dat", "r") as f:
-    data = f.readlines()
-    db_host = data[0].strip()
-    db_username = data[1].strip()
-    db_password = data[2].strip()
+
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': db_host,
+        'HOST': os.getenv("IPMAT_DB_HOST"),
         'PORT': '3306',
-        'NAME': 'ipmat',
-        'USER': db_username,
-        'PASSWORD': db_password
+        'NAME': os.getenv("IPMAT_DB_NAME"),
+        'USER': os.getenv("IPMAT_DB_USER"),
+        'PASSWORD': os.getenv("IPMAT_DB_PASSWORD")
 
     }
 }
@@ -137,17 +149,13 @@ USE_TZ = True
 MEDIA_URL = '/uploads/'  # 업로드 할 경로
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
-# AWS Setting
-with open(BASE_DIR+"/s3.dat", "r") as f:
-    data = f.readlines()
-    s3_access_key_id = data[0].strip()
-    s3_secret_access_key = data[1].strip()
+# AWS S3 Setting
 AWS_REGION = 'ap-northeast-2'
-AWS_STORAGE_BUCKET_NAME = 'ipmat-uploads'
+AWS_STORAGE_BUCKET_NAME = os.getenv("IPMAT_S3_BUCKETNAME")
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_HOST = 's3.%s.amazonaws.com' % AWS_REGION
-AWS_ACCESS_KEY_ID = s3_access_key_id
-AWS_SECRET_ACCESS_KEY = s3_secret_access_key
+AWS_ACCESS_KEY_ID = os.getenv("IPMAT_S3_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("IPMAT_S3_SECRET_ACCESS_KEY")
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_DEFAULT_ACL = "public-read"
 
