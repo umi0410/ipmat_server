@@ -40,8 +40,7 @@ DEBUG = True
 if(os.getenv('IPMAT_DEBUG')=="False"):
     DEBUG=False
 
-ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1","localhost"
-                 "ipmat"]
+ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1","localhost","ipmat"]
 
 
 # Application definition
