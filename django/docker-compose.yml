@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+    express:
+      image: 325498511266.dkr.ecr.ap-northeast-2.amazonaws.com/ipmat-server:docker-swarm
+      ports:
+        - "8001:8000"
+      healthcheck:
+        test: curl -sS http://localhost:8000 || exit 1
+        interval: 5s
+        timeout: 5s
+        retries: 3
