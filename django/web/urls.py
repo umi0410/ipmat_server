@@ -21,7 +21,7 @@ from django.http import HttpResponse
 from preference import views as preference_views
 
 def defaultIndex(request):
-    return HttpResponse("<h1>Ipmat. 오늘의 입맛은?</h1>")
+    return HttpResponse("<h1>Ipmat. 오늘의 입맛은?</h1><h2>docker swarm mode</h2>")
 def getSetting(request):
     data={}
     data["MEDIA_URL"]=settings.MEDIA_URL

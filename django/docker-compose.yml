@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
     express:
-      image: 325498511266.dkr.ecr.ap-northeast-2.amazonaws.com/ipmat-server:docker-swarm
+      image: 325498511266.dkr.ecr.ap-northeast-2.amazonaws.com/ipmat-server:stable
       ports:
         - "8001:8000"
       healthcheck:
