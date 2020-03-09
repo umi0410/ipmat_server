@@ -30,9 +30,17 @@ docker run --name -d ipmat-server -p 8001:8000
 
 ## Requirements
 
+#### python packages
+
 `pip install -r requirements.txt` python 모듈은 `requirements.txt`에 기록된 목록을 이용해 설치한다.
 
+#### Environment virables
+
 사용하는 Environmental virables는 `.env`, `.production.env` 이고, 이 두 파일은 `ipmat-upload` 버킷에 프라이빗하게 업로드 해두었다. 혹시라도 이 파일들을 완전히 분실하게 된다면 골치아프겠지만, 이러한 상황을 대비해 S3 버킷에 업로드해둔 것이다.`.env`와 `.production.env`는 private repository라도 **추후에 public으로 바꿀 때를 대비해 Github에 공개하지 말 것**
+
+환경변수 파일은 어차피 ECR의 이미지 속에 들어있으므로 서버에 Deploy할 시에는 따로 환경변수 파일이 필요없다.
+
+#### Server instance
 
 `sudo apt install docker.io awscli`
 
@@ -41,6 +49,42 @@ docker run --name -d ipmat-server -p 8001:8000
 `aws configure` 을 통해 `ECR`에 Pull이 가능한 `IAM User`을 추가해준다.
 
 ## How to run the server
+
+> docker swarm을 이용해 단일 호스트 내에 2개 이상의 container을 돌림으로써 무중단 배포와 healthcheck을 통한 컨테이너 replica 수를 유지함.
+> Image는 ECR의 이미지를 이용한다.
+
+#### service가 존재하지 않는 경우) service를 만든다.
+
+> docker-compose.yml로 stack을 이용해 service를 만드는 방법도 있지만, 이걸 이용하면 결국 서버에서 git clone을 받는 등의 행위를 해야하고 서버가 더러워짐. docker command만으로 서버를 돌리는 것이 목표이므로 cli 에서 바로 service를 만든다.
+
+```
+docker service create --name ipmat-server -p 8001:8000 \
+--replicas 2 \
+--health-cmd='curl -sS http://localhost:8000 || exit 1' \
+--health-timeout=5s \
+--health-retries=2 \
+--health-interval=10s \
+325498511266.dkr.ecr.ap-northeast-2.amazonaws.com/ipmat-server:stable
+```
+
+하지만 목표 중 하나가 **무중단 배포**였던만큼 **service를 삭제하는 일은 가급적 없어야한다.**
+
+#### service가 존재하는 경우) 해당 service의 image를 업데이트한다.
+
+```
+$(aws ecr get-login --no-include-email) && \
+docker pull 325498511266.dkr.ecr.ap-northeast-2.amazonaws.com/ipmat-server:stable && \
+docker service update --image 325498511266.dkr.ecr.ap-northeast-2.amazonaws.com/ipmat-server:stable ipmat-server --force
+```
+
+​	ecr 에 로그인한 뒤 이미지를 pull한다.
+​	이후 같은 태그(ipmat-server:stable)의 이미지로 업데이트 하는 것이므로 --force 옵션을 붙여준다.
+
+
+
+## (Deprecated) How to run the server
+
+> 과거에 이용하던 단순 컨테이너 run 방식
 
 `aws configure`후에 `$(aws ecr get-login --no-include-email)` 을 통해 ECR에 접근할 수 있도록 로그인한다.
 
@@ -110,6 +154,14 @@ docker run --name -d ipmat-server -p 8001:8000
 
     ECR을 통해 Private repository를 이용한다.
 
+* #### 20200308
+
+  과거에 docker-compose를 이용해 nginx와 묶는 작업을 하곤했는데, 그럴 필요성을 못느껴 단일 container로 run 하는 방식을 이용했었다.
+
+  docker swarm을 다루게되면서 healthcheck기능과 자동 loadbalancling 기능을 이용하면 좋을 것 같다고 판단하여 한 호스트 내에서 2개 이상의 컨테이너를 run 시키면서 무중단배포와 health check후 replica의 수를 유지하는 작업을 이뤄냈다.
+
+
+
 ## 피드백
 
 -   ~~전체적인 디자인 깔끔하게~~
@@ -119,5 +171,3 @@ docker run --name -d ipmat-server -p 8001:8000
 -   SetPreferences 나 session key 관리 부분을 좀 더 확실히 하기.
 -   ~~s3 와 django storage 연동하기~~
 -   s3 Bucket을 Nginx reverse proxy로 설정해서 한 호스트를 통해 이용가능하게 할까?
--   Fragment View로 갈아타볼까
--   이미지와 creator 여러명 넣을 수 있게하기.
