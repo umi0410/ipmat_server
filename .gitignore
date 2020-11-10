@@ -8,3 +8,4 @@ env/
 django/.env
 django/.env*
 django/.production.env
+.idea
